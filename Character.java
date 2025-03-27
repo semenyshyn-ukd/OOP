@@ -2,19 +2,32 @@ public class Character {
     protected String name;
     protected int health;
 
-    public void protect1(String shield) {
-        System.out.println("Захисний інструмент " + name + ": " + shield);
-    }
-    public void protect2(String armoredVest, String helmet) {
-        System.out.println("Захисний костюм " + name + ": " + armoredVest + " " + helmet);
+    public Character(String name, int health) {
+        this.name = name;
+        this.health = health;
     }
 
-    public void attac1(String gun, String knee, String stunGan){
-        System.out.println("Зброя для атаки для" + name + ": " + gun + " " + knee + " " + stunGan);
+
+    public void protect() {
+        System.out.println(name + ": захищається");
     }
-    public void attac2(String sword, String spear, String sledgehammer){
-        System.out.println("Зброя дл атаки для" + name + ": " + sword + " " + spear + " " + sledgehammer);
+    public void protect(String protect1, String protect2, String protect3) {
+        System.out.println("Захисний костюм: " + protect1 + " " + protect2 + "\nЗахисний інструмент: " + protect3);
     }
 
-    public void speccialAttac(){}
+    public void attac(){
+        System.out.println(name + ": атакує");
+    }
+    public void attac(String arms1, String arms2, String arms3){
+        System.out.println(name + ": атакував " + arms1 + " " + arms2 + " " + arms3);
+    }
+
+    public void speccialAttac(){
+        System.out.println("");
+    }
+
+    @Override
+    public String toString() {
+        return "\nПерсонаж: " + name + "\nЗдоров'я:  " + health;
+    }
 }
