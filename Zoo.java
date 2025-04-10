@@ -61,13 +61,13 @@ public class Zoo {
         zoo.addFood(grass);
         zoo.addFood(grains);
 
-        Cat cat = new Cat("Мурзік", 3.5, 4.2, 70, "Приміщення котів", Animal.Kind.ХИЖАК);
-        Fish fish = new Fish("Немо", 1.2, 0.3, 40, "Акваріум", Animal.Kind.ТРАВОЇДНА);
-        Bird bird = new Bird("Кеша", 2.0, 0.5, 30, "Пташник", Animal.Kind.ТРАВОЇДНА);
+        Cat cat = new Cat("Аліса", 3.5, 4.2, 70, "Приміщення котів", Animal.Kind.ХИЖАК);
+        Fish fish = new Fish("Немо", 1.2, 0.3, 40, "Вода", Animal.Kind.ТРАВОЇДНА);
+        Bear bear = new Bear("Кеша", 2.0, 0.5, 30, "Берлога", Animal.Kind.ХИЖАК);
 
         zoo.addAnimal(cat);
         zoo.addAnimal(fish);
-        zoo.addAnimal(bird);
+        zoo.addAnimal(bear);
 
         EmployeeFeed feedEmployee = new EmployeeFeed(1, "Іван", 2, "Годувальник");
         EmployeeTrain trainEmployee = new EmployeeTrain(2, "Марія", 4, "Тренер");
@@ -85,7 +85,7 @@ public class Zoo {
 
         System.out.println("\nГодування тварин");
         for (Animal animal : zoo.getAnimals()) {
-            System.out.println("Спроба нагодувати " + animal.getName() + ":");
+            System.out.println("Годує тварину " + animal.getName() + ":");
 
             for (Food food : zoo.getFoods()) {
                 animal.eat(food);

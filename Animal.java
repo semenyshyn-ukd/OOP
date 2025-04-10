@@ -35,7 +35,7 @@ public class Animal {
     public void eat(Food food) {
         if (kind == Kind.ХИЖАК) {
             if (food.getCategory() == Food.Category.ТРАВА || food.getCategory() == Food.Category.КРУПИ) {
-                System.out.println("Тваринка " + name + " відмовиться від " + food.getName());
+                System.out.println("Тваринка " + name + " не хоче " + food.getName());
             } else {
                 System.out.println("Тваринка " + name + " поїла " + food.getName() + "!");
                 reduceHunger(food.isHungry() ? 30 : 15);
