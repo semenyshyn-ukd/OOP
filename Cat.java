@@ -4,8 +4,16 @@ public class Cat extends Animal {
     }
 
     @Override
-    public void eat(String food) {
-        super.eat("трава");
+    public void eat(Food food) {
+        if (food.getCategory() == Food.Category.МЯСО) {
+            System.out.println("Кіт " + name + " із задоволенням їсть " + food.getName() + "!");
+            int reduction = food.isHungry() ? 40 : 20;
+            lvlHungry -= reduction;
+            if (lvlHungry < 0) lvlHungry = 0;
+            System.out.println("Рівень голоду знизився до " + lvlHungry + "%");
+        } else {
+            System.out.println("Кіт " + name + " неохоче дивиться на " + food.getName());
+        }
     }
 
     @Override

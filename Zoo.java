@@ -1,81 +1,141 @@
-import java.util.*;
+import java.util.ArrayList;
 
 public class Zoo {
     private ArrayList<Animal> animals;
     private ArrayList<ZooEmployee> employees;
+    private ArrayList<Food> foods;
 
     public Zoo() {
         animals = new ArrayList<>();
         employees = new ArrayList<>();
+        foods = new ArrayList<>();
+    }
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public ArrayList<ZooEmployee> getEmployees() {
+        return employees;
+    }
+
+    public ArrayList<Food> getFoods() {
+        return foods;
     }
 
     public void addAnimal(Animal animal) {
         animals.add(animal);
-        System.out.println("Додано тварину: " + animal.name);
+        System.out.println("Додано нову тварину: " + animal.getName());
     }
 
     public void addEmployee(ZooEmployee employee) {
         employees.add(employee);
-        System.out.println("Додано працівника: " + employee.nameEmployee);
+        System.out.println("Додано нового працівника: " + employee.getNameEmployee());
     }
 
-    public void changeExperience(int employeeId, int newExperience) {
+    public void addFood(Food food) {
+        foods.add(food);
+        System.out.println("Додано нову їжу: " + food.getName());
+    }
+
+    public void changeEmployeeExperience(int employeeId, int newExperience) {
         for (ZooEmployee employee : employees) {
-            if (employee.id == employeeId) {
-                employee.experience = newExperience;
-                System.out.println("Змінено рівень досвіду працівника " + employee.nameEmployee + " на " + newExperience);
+            if (employee.getId() == employeeId) {
+                int oldExperience = employee.getExperience();
+                employee.setExperience(newExperience);
+                System.out.println("Змінено досвід працівника " + employee.getNameEmployee() +
+                        " з " + oldExperience + " на " + employee.getExperience());
                 return;
             }
         }
-        System.out.println("Працівника з ID " + employeeId + " не знайдено.");
-    }
-
-    public void showAnimals() {
-        System.out.print("\nСписок тварин у зоопарку:");
-        for (Animal animal : animals) {
-            System.out.println(animal.show());
-        }
-    }
-
-    public void showEmployees() {
-        System.out.println("\nСписок працівників у зоопарку:");
-        for (ZooEmployee employee : employees) {
-            System.out.println(employee.nameEmployee + " (ID: " + employee.id + ", Досвід: " + employee.experience + ")");
-        }
+        System.out.println("Працівника з ID " + employeeId + " не знайдено!");
     }
 
     public static void main(String[] args) {
         Zoo zoo = new Zoo();
 
-        // Додаємо тварин
-        Cat cat1 = new Cat("Аліса", 8, 5, 80, "будинок/квартира", Animal.Kind.ХИЖАК);
-        zoo.addAnimal(cat1);
+        Food meat = new Food("М'ясо", true, Food.Category.МЯСО);
+        Food grass = new Food("Трава", false, Food.Category.ТРАВА);
+        Food grains = new Food("Крупи", true, Food.Category.КРУПИ);
 
-        Zebra zebra1 = new Zebra("Зібров", 67, 120, 100, "Африка", Animal.Kind.ТРАВОЇДНА);
-        zoo.addAnimal (zebra1);
+        zoo.addFood(meat);
+        zoo.addFood(grass);
+        zoo.addFood(grains);
 
-        Fish fish1 = new Fish("Немо", 0, 0.1, 1, "Водичка", Animal.Kind.ТРАВОЇДНА);
-        zoo.addAnimal(fish1);
+        Cat cat = new Cat("Мурзік", 3.5, 4.2, 70, "Приміщення котів", Animal.Kind.ХИЖАК);
+        Fish fish = new Fish("Немо", 1.2, 0.3, 40, "Акваріум", Animal.Kind.ТРАВОЇДНА);
+        Bird bird = new Bird("Кеша", 2.0, 0.5, 30, "Пташник", Animal.Kind.ТРАВОЇДНА);
 
-        // Додаємо працівників
-        EmployeeFeed feeder = new EmployeeFeed(1, "Алекс", 1, "Годувальник");
-        zoo.addEmployee(feeder);
+        zoo.addAnimal(cat);
+        zoo.addAnimal(fish);
+        zoo.addAnimal(bird);
 
-        EmployeeTrain trainer = new EmployeeTrain(2, "Степан", 4, "Тренер");
-        zoo.addEmployee(trainer);
+        EmployeeFeed feedEmployee = new EmployeeFeed(1, "Іван", 2, "Годувальник");
+        EmployeeTrain trainEmployee = new EmployeeTrain(2, "Марія", 4, "Тренер");
 
-        // Тестуємо годування та тренування
-        System.out.println(" ");
-        feeder.feed(cat1); // Не має доступу
-        feeder.feed(zebra1); // Має доступ
+        zoo.addEmployee(feedEmployee);
+        zoo.addEmployee(trainEmployee);
 
-        trainer.train(cat1); // Має доступ
-        trainer.train(zebra1); // Має доступ
+        System.out.println("\nМожливості тварин");
+        for (Animal animal : zoo.getAnimals()) {
+            System.out.println(animal.show());
+            animal.sound("");
+            animal.walk("");
+            System.out.println();
+        }
 
-        // Показуємо всіх тварин
-        zoo.showAnimals();
+        System.out.println("\nГодування тварин");
+        for (Animal animal : zoo.getAnimals()) {
+            System.out.println("Спроба нагодувати " + animal.getName() + ":");
 
-        // Показуємо всіх працівників
-        zoo.showEmployees();
+            for (Food food : zoo.getFoods()) {
+                animal.eat(food);
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nРоботи працівників");
+        for (ZooEmployee employee : zoo.getEmployees()) {
+            for (Animal animal : zoo.getAnimals()) {
+                System.out.println(employee.talkAboutAnimal(animal));
+
+                if (employee instanceof EmployeeFeed) {
+                    Food appropriateFood = null;
+                    if (animal.getKind() == Animal.Kind.ХИЖАК) {
+                        for (Food food : zoo.getFoods()) {
+                            if (food.getCategory() == Food.Category.МЯСО) {
+                                appropriateFood = food;
+                                break;
+                            }
+                        }
+                    } else {
+                        for (Food food : zoo.getFoods()) {
+                            if (food.getCategory() == Food.Category.ТРАВА ||
+                                    food.getCategory() == Food.Category.КРУПИ) {
+                                appropriateFood = food;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (appropriateFood != null) {
+                        ((EmployeeFeed) employee).feed(animal, appropriateFood);
+                    }
+                }
+
+                if (employee instanceof EmployeeTrain) {
+                    ((EmployeeTrain) employee).train(animal);
+                }
+            }
+        }
+
+        System.out.println("\nЗміна досвіду працівника");
+        zoo.changeEmployeeExperience(1, 3);
+
+        System.out.println("\nПеревірка доступу після зміни досвіду");
+        for (Animal animal : zoo.getAnimals()) {
+            if (animal.getKind() == Animal.Kind.ХИЖАК) {
+                System.out.println(feedEmployee.canAccessAnimal(animal));
+            }
+        }
     }
 }

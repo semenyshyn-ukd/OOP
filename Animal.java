@@ -16,24 +16,44 @@ public class Animal {
         this.kind = kind;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Kind getKind() {
+        return kind;
+    }
+
+    public int getLvlHungry() {
+        return lvlHungry;
+    }
+
     public void sound(String tone) {
         System.out.println("Тваринка " + name + " " + tone);
     }
 
-    public void eat(String food) {
+    public void eat(Food food) {
         if (kind == Kind.ХИЖАК) {
-            if (food.equalsIgnoreCase("Трава") || food.equalsIgnoreCase("Крупи")) {
-                System.out.println("Тваринка " + name + " відмовиться від трави");
+            if (food.getCategory() == Food.Category.ТРАВА || food.getCategory() == Food.Category.КРУПИ) {
+                System.out.println("Тваринка " + name + " відмовиться від " + food.getName());
             } else {
-                System.out.println("Тваринка " + name + " поїла " + food + "!");
+                System.out.println("Тваринка " + name + " поїла " + food.getName() + "!");
+                reduceHunger(food.isHungry() ? 30 : 15);
             }
         } else if (kind == Kind.ТРАВОЇДНА) {
-            if (food.equalsIgnoreCase("М'ясо")) {
-                System.out.println("Тваринка " + name + " відмовиться від м'яса!");
+            if (food.getCategory() == Food.Category.МЯСО) {
+                System.out.println("Тваринка " + name + " відмовиться від " + food.getName() + "!");
             } else {
-                System.out.println("Тваринка " + name + " поїла " + food + "!");
+                System.out.println("Тваринка " + name + " поїла " + food.getName() + "!");
+                reduceHunger(food.isHungry() ? 30 : 15);
             }
         }
+    }
+
+    private void reduceHunger(int amount) {
+        lvlHungry -= amount;
+        if (lvlHungry < 0) lvlHungry = 0;
+        System.out.println("Рівень голоду " + name + " знизився до " + lvlHungry + "%");
     }
 
     public void walk(String walk) {
